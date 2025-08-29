@@ -214,7 +214,7 @@ const inverterData = {
                   </div>
                   {index < infoItems.length - 1 && <hr className="my-2  border-gray-300" />}
                 </div>
-              );
+              ); 
             })}
           </div>
         </div>

@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import type { ReactElement } from "react";
+
 import Login from "./Auth/Login";
 import Layout from "./Dashbored/Layout";
 import Home from "./Dashbored/Home";
@@ -11,8 +13,7 @@ import WMS from "./Dashbored/WMS";
 import PR from "./Dashbored/PR";
 import Pv from "./Dashbored/Pv";
 
-
-function PrivateRoute({ children }: { children: JSX.Element }) {
+function PrivateRoute({ children }: { children: ReactElement }) {
   const isAuth = localStorage.getItem("auth") === "true";
   return isAuth ? children : <Navigate to="/" />;
 }
@@ -33,17 +34,13 @@ function App() {
         >
           <Route index element={<Home />} />
           <Route path="projects" element={<Projects />} />
-          <Route path="Inverters" element={<Inverters />} />
-          <Route path="ACDB" element={<ACDB />} />
-          <Route path="Transformers" element={<Transformers />} />
-          <Route path="HTPanel" element={<HTPanel />} />
-          <Route path="WMS" element={<WMS />} />
-          <Route path="PR" element={<PR />} />
-                    <Route path="Pv" element={<Pv />} />
-
-
-
-
+          <Route path="inverters" element={<Inverters />} />
+          <Route path="acdb" element={<ACDB />} />
+          <Route path="transformers" element={<Transformers />} />
+          <Route path="htpanel" element={<HTPanel />} />
+          <Route path="wms" element={<WMS />} />
+          <Route path="pr" element={<PR />} />
+          <Route path="pv" element={<Pv />} />
         </Route>
       </Routes>
     </Router>

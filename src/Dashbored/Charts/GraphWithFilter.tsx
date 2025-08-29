@@ -70,7 +70,6 @@ const GraphWithFilter: React.FC<GraphProps> = ({
     const [fromDate, setFromDate] = useState(formatDate(yesterday));
     const [toDate, setToDate] = useState(formatDate(today));
 
-    // if dataset has a full date, filter by range
     const hasFullDate = data[0]?.time.includes("-");
 
     const filteredData = hasFullDate
@@ -82,9 +81,7 @@ const GraphWithFilter: React.FC<GraphProps> = ({
 
     return (
         <div className="p-4 bg-white rounded-xl shadow">
-            {/* Date Filter + Legend Row */}
             <div className="flex items-center gap-4 mb-4 justify-between">
-                {/* Date Pickers */}
                 <div className="flex items-center">
                     <div className="flex gap-1.5">
                         <span>From:</span>
@@ -107,7 +104,6 @@ const GraphWithFilter: React.FC<GraphProps> = ({
                     </div>
                 </div>
 
-                {/* Custom Legend */}
                 <div className="flex justify-end items-center gap-4 mb-2 text-sm text-[#777777]">
                     <div className="flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full bg-[#D60000]" />
@@ -133,7 +129,6 @@ const GraphWithFilter: React.FC<GraphProps> = ({
                     data={filteredData}
                     margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
                 >
-                    {/* Grid */}
                     <CartesianGrid stroke="#e0e0e0" strokeDasharray="0" />
 
                     <XAxis
@@ -152,7 +147,6 @@ const GraphWithFilter: React.FC<GraphProps> = ({
                         tickCount={Math.floor(400 / 10)}
                     />
 
-                    {/* Custom Tooltip */}
                     <Tooltip content={<CustomTooltip />} />
 
                     <Line type="monotone" dataKey="max" stroke="#D60000" dot={false} />

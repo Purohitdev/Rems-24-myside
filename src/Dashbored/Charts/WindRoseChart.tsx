@@ -3,17 +3,16 @@ import ReactECharts from "echarts-for-react";
 type BinLabel = "0-1" | "1-2" | "2-3" | "3-4" | "4-5" | "5-6" | "6-7" | "7+";
 
 type WindRoseDatum = {
-  direction: string;                // e.g. "N","NE","E","SE","S","SW","W","NW"
-  values: Partial<Record<BinLabel, number>>; // counts per bin for this direction
+  direction: string;               
+  values: Partial<Record<BinLabel, number>>;
 };
 
 interface WindRoseProps {
   data: WindRoseDatum[];
-  unit?: string;                    // optional, e.g. "k" -> shows 0.5k, 1.0k…
-  height?: number;                  // px
+  unit?: string;                    
+  height?: number;                
 }
 
-/** Exact color ramp like your screenshot (don’t change order) */
 const COLORS: Record<BinLabel, string> = {
   "0-1": "#7B3F97", // purple
   "1-2": "#1F66B1", // deep blue
@@ -30,7 +29,6 @@ const BIN_ORDER: BinLabel[] = ["0-1","1-2","2-3","3-4","4-5","5-6","6-7","7+"];
 export default function WindRose({ data, unit = "", height = 360 }: WindRoseProps) {
   const directions = data.map(d => d.direction);
 
-  // compute stacked max for radius scale
   const maxRadius = Math.max(
     0,
     ...data.map(d =>
@@ -38,7 +36,6 @@ export default function WindRose({ data, unit = "", height = 360 }: WindRoseProp
     )
   );
 
-  // auto-align center of bars with labels
   const startAngle = 90 - 360 / (directions.length * 2);
 
   const option = {
@@ -59,17 +56,17 @@ export default function WindRose({ data, unit = "", height = 360 }: WindRoseProp
       itemWidth: 18,
       itemHeight: 12,
       data: BIN_ORDER,
-      z: 20 // ✅ keep legend always on top
+      z: 20 
     },
     angleAxis: {
       type: "category",
       data: directions,
-      startAngle,          // ✅ fixed auto alignment
-      clockwise: false,    // W goes left, like real compass
+      startAngle,          
+      clockwise: false,   
       axisLabel: { fontWeight: "bold" },
       axisTick: { show: false },
       axisLine: { lineStyle: { color: "#333" } },
-      z: 10                // ✅ axis labels above bars
+      z: 10                
     },
     radiusAxis: {
       type: "value",
@@ -85,13 +82,12 @@ export default function WindRose({ data, unit = "", height = 360 }: WindRoseProp
       splitLine: { lineStyle: { type: "dashed", color: "#bbb" } },
       axisLine: { show: false },
       axisTick: { show: false },
-      z: 10                // ✅ radial labels in front of bars
+      z: 10               
     },
     polar: {
       center: ["50%", "50%"],
       radius: "78%"
     },
-    // white "hole" in the middle, like your SS
     graphic: [{
       type: "circle",
       left: "center",
@@ -108,7 +104,7 @@ export default function WindRose({ data, unit = "", height = 360 }: WindRoseProp
       barCategoryGap: "0%",
       itemStyle: { color: COLORS[bin] },
       data: data.map(d => d.values[bin] ?? 0),
-      z: 1 // bars under axis/labels
+      z: 1 
     }))
   };
 

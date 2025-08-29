@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useMemo } from "react";
 import NavTabs from "../../Navtabs"; 
 import {
@@ -9,32 +11,44 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+interface InverterDataPoint {
+  day: string;
+  generation: number;
+  expected: number;
+}
+
+interface GenerationAreaChartProps {
+  title?: string;
+  inverterTabs?: string[];
+  defaultInverter?: string;
+  inverterData: Record<string, InverterDataPoint[]>; 
+}
+
 const GenerationAreaChartComponent = ({
   title = "Inverters Power Generation",
   inverterTabs = ["Inv-01", "Inv-02", "Inv-03", "Inv-04"],
   defaultInverter = "Inv-01",
-  inverterData = {}, 
-}) => {
-  const [activeInverter, setActiveInverter] = useState(defaultInverter);
+  inverterData,
+}: GenerationAreaChartProps) => {
+  const [activeInverter, setActiveInverter] = useState<string>(defaultInverter);
 
-  const memoizedData = useMemo(
+  const memoizedData = useMemo<InverterDataPoint[]>(
     () => inverterData[activeInverter] || [],
     [inverterData, activeInverter]
   );
 
-  const achieved = useMemo(
-    () => memoizedData.reduce((sum, d) => sum + (d.generation || 0), 0),
+  const achieved = useMemo<number>(
+    () => memoizedData.reduce((sum, d) => sum + (d.generation ?? 0), 0),
     [memoizedData]
   );
 
-  const expected = useMemo(
-    () => memoizedData.reduce((sum, d) => sum + (d.expected || 0), 0),
+  const expected = useMemo<number>(
+    () => memoizedData.reduce((sum, d) => sum + (d.expected ?? 0), 0),
     [memoizedData]
   );
 
   return (
     <div className="bg-white shadow rounded-2xl p-6 w-full">
-    
       <div className="flex justify-between items-start mb-4">
         <h2 className="text-xl font-semibold mt-2">{title}</h2>
 
@@ -49,11 +63,15 @@ const GenerationAreaChartComponent = ({
             <p className="font-semibold text-black text-base">
               {achieved.toLocaleString()} kWh Power Generated
             </p>
-            <p className=" ">
+            <p>
               Achieved:{" "}
-              <span className="font-normal text-sm text-[#777777]">{achieved.toLocaleString()} kWh</span> | 
-              Expected:{" "}
-              <span className="font-normal text-sm text-[#777777]">{expected.toLocaleString()} kWh</span>
+              <span className="font-normal text-sm text-[#777777]">
+                {achieved.toLocaleString()} kWh
+              </span>{" "}
+              | Expected:{" "}
+              <span className="font-normal text-sm text-[#777777]">
+                {expected.toLocaleString()} kWh
+              </span>
             </p>
           </div>
         </div>

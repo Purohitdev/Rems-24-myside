@@ -8,9 +8,7 @@ import LineChartComponent from "./Charts/LineChartComponent"
 function PVParameterLayout({ data }: { data: any }) {
     return (
         <div className="space-y-6">
-            {/* ---- Top Section ---- */}
             <div className="grid grid-cols-12 gap-4">
-                {/* Left Info */}
                 <div className="col-span-3 bg-white shadow rounded-xl p-4 text-sm space-y-2 h-full">
                     {[
                         { label: "Internal Temperature", value: `${data.internalTemp}°C` },
@@ -30,7 +28,6 @@ function PVParameterLayout({ data }: { data: any }) {
                     ))}
                 </div>
 
-                {/* Voltage & Current Table */}
                 <div className="col-span-9 bg-white shadow rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead>
@@ -65,7 +62,6 @@ function PVParameterLayout({ data }: { data: any }) {
                 </div>
             </div>
 
-            {/* ---- Current String Values ---- */}
             <div className="bg-white shadow rounded-xl overflow-hidden">
                 <div className="bg-green-700 text-white px-4 py-3 text-center font-medium">
                     Current String Values
@@ -193,7 +189,6 @@ export default function Pv() {
         <div>
             <TopBar title="PV Monitoring" />
             <div className="py-6 space-y-4">
-                {/* ---- Main Tabs ---- */}
                 <div className="flex justify-between items-center">
                     <NavTabs
                         tabs={["PV Parameter", "MPPT Monitoring", "String Monitoring"]}
@@ -202,7 +197,6 @@ export default function Pv() {
                     />
                 </div>
 
-                {/* ---- Inverter Tabs ---- */}
                 <div className="flex gap-6 border-b border-gray-200 px-3 overflow-x-auto">
                     {logTabs.map((tab) => (
                         <button
@@ -218,7 +212,6 @@ export default function Pv() {
                     ))}
                 </div>
 
-                {/* ---- Dynamic Content ---- */}
                 <div className="p-4">
                     {activeTab === "PV Parameter" && <PVParameterLayout data={currentData} />}
 
@@ -226,8 +219,8 @@ export default function Pv() {
                         <LineChartComponent
                             title="DC Current Curve"
                             yLabel="Amps"
-                            data={currentData.voltageData}   // ✅ time-series data
-                            lines={currentData.voltageLines} // ✅ which lines to show
+                            data={currentData.voltageData}   
+                            lines={currentData.voltageLines} 
                         />
                     )}
 

@@ -14,7 +14,6 @@ import {
   FaLeaf,
 } from "react-icons/fa"
 
-// 🔹 Features List
 const features = [
   { icon: FaChartLine, text: "Real time insights and monitoring" },
   { icon: FaMicrochip, text: "Smart IoT energy management" },
@@ -22,10 +21,8 @@ const features = [
   { icon: FaLeaf, text: "Sustainability and carbon saving" },
 ]
 
-// 🔹 Role Tabs
 const roles = ["Admin", "Viewer"]
 
-// 🔹 Form Fields Config
 const loginFields = [
   {
     key: "loginId",
@@ -65,7 +62,6 @@ export default function Login() {
       className="min-h-screen bg-cover bg-center flex flex-col"
       style={{ backgroundImage: "url('/back.png')" }}
     >
-      {/* Top Bar */}
       <div className="p-6 flex justify-between items-center flex-shrink-0">
         <img src="/logo.svg" alt="logo" className="h-[59px]" />
         <div className="flex items-center gap-6 text-base font-normal">
@@ -82,7 +78,6 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Main Section */}
       <div className="flex-1 flex items-center justify-between px-6 md:px-16 py-8 gap-8  -mt-10">
         {/* Left Side */}
         <div className="flex-1 max-w-2xl">
@@ -124,7 +119,6 @@ export default function Login() {
             ))}
           </div>
 
-          {/* Title */}
           <div className="text-center mb-8">
             <h2 className="text-lg font-semibold text-gray-900">
               Welcome Back
@@ -134,7 +128,6 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleLogin} className="space-y-4">
             {loginFields.map(({ key, type, placeholder, icon: Icon }) => (
               <div key={key} className="relative">
@@ -164,14 +157,12 @@ export default function Login() {
               </div>
             ))}
 
-            {/* Forgot Password */}
             <div className="flex justify-end">
               <p className="text-sm text-gray-500 cursor-pointer hover:text-[#006A02] hover:underline transition-colors">
                 Forgot Password?
               </p>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               className="w-full bg-[#006A02] text-white py-3 rounded-lg hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-200 transition-colors font-medium text-sm"
@@ -180,7 +171,6 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Footer */}
           <p className="text-xs mt-3 text-gray-500 leading-relaxed">
             Need help signing in?{" "}
             <span className="text-black font-semibold cursor-pointer hover:underline">

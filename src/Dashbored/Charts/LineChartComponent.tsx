@@ -16,7 +16,7 @@ interface LineConfig {
   key: string;
   name: string;
   color: string;
-  type?: "linear" | "monotone" | "step" | "basis" | "natural"; // 👈 added
+  type?: "linear" | "monotone" | "step" | "basis" | "natural"; 
 }
 
 interface Props {
@@ -26,7 +26,6 @@ interface Props {
   lines: LineConfig[];
 }
 
-// ✅ Custom Tooltip Component
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -47,7 +46,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-// ✅ Custom Legend (stacked, small circle, black text)
 const CustomLegend = (props: any) => {
   const { payload } = props;
   return (
@@ -74,7 +72,6 @@ const LineChartComponent: React.FC<Props> = ({ title, yLabel, data, lines }) => 
       <h2 className="text-[20px] font-medium text-green-700 mb-8">{title}</h2>
       <ResponsiveContainer width="100%" height={350}>
         <LineChart data={data}>
-          {/* ✅ Solid grid lines with 30% opacity */}
           <CartesianGrid stroke="#E0E0E0" strokeOpacity={0.3} />
           <XAxis dataKey="time" />
           <YAxis
@@ -95,7 +92,7 @@ const LineChartComponent: React.FC<Props> = ({ title, yLabel, data, lines }) => 
               name={line.name}
               strokeWidth={2}
               dot={false}
-              type={line.type || "linear"} // 👈 fallback to linear
+              type={line.type || "linear"} 
             />
           ))}
         </LineChart>

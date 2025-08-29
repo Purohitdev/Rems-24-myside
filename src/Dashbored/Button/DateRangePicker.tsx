@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 
+// interface DateRangePickerProps {
+//   onChange?: (range: { from: string; to: string }) => void;
+// }
+
 interface DateRangePickerProps {
-  onChange?: (range: { from: string; to: string }) => void;
+  defaultFrom?: string;
+  defaultTo?: string;
+  onChange: ({ from, to }: { from: string; to: string }) => void;
 }
 
 export default function DateRangePicker({ onChange }: DateRangePickerProps) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
-  // 🔹 Function to calculate yesterday & today
   const getDefaultDates = () => {
     const now = new Date();
 
@@ -20,7 +25,6 @@ export default function DateRangePicker({ onChange }: DateRangePickerProps) {
     return { from: yDate, to: today };
   };
 
-  // 🔹 Initialize and auto-update at midnight
   useEffect(() => {
     const { from, to } = getDefaultDates();
     setFromDate(from);
@@ -28,7 +32,6 @@ export default function DateRangePicker({ onChange }: DateRangePickerProps) {
 
     if (onChange) onChange({ from, to });
 
-    // ⏰ Recalculate every minute (so when day changes, it updates)
     const interval = setInterval(() => {
       const { from, to } = getDefaultDates();
       setFromDate(from);
@@ -55,7 +58,7 @@ export default function DateRangePicker({ onChange }: DateRangePickerProps) {
         type="date"
         value={toDate}
         min={fromDate || undefined}
-        max={getDefaultDates().to} // prevent selecting future dates
+        max={getDefaultDates().to} 
         onChange={(e) => setToDate(e.target.value)}
         className="px-3 py-1 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
       />

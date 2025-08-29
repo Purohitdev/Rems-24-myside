@@ -52,7 +52,6 @@ const Transformers = () => {
     { id: "WTI-HV6-TRANS", min: 28.0, max: 46.4, avg: 34.729, current: 36.3, change: +1.2 },
   ];
 
-  // Reduced sample graph data for Logs
 
   const sampleData1 = [
     { time: "17:01", value: 0.35, max: 1, min: 0.25, avg: 0.7 },
@@ -128,10 +127,8 @@ const Transformers = () => {
 
   const renderLogContent = (title: string, value: number, min: number, max: number, avg: number, change: number, data: any[], tableData: any[]) => (
     <div className="py-8 flex justify-between flex-wrap ">
-      {/* Card */}
 
       <div className="flex-1 bg-white shadow rounded-2xl p-6 max-w-[29%] flex flex-col justify-between">
-        {/* Header */}
         <div>
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-lg font-medium">{title}</h2>
@@ -141,7 +138,6 @@ const Transformers = () => {
           </div>
           <hr className="border-gray-300 my-3" />
 
-          {/* Temps */}
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
               <span className="text-[#777777]">Minimum Temp:</span>
@@ -157,7 +153,6 @@ const Transformers = () => {
             </div>
           </div>
 
-          {/* Radial Gauge */}
           <div className="flex flex-col items-center my-6">
             <div className="relative w-[180px] h-[120px]">
               <RadialBarChart
@@ -178,14 +173,13 @@ const Transformers = () => {
                 ]}
               >
                 <PolarAngleAxis type="number" domain={[0, 100]} tick={false} axisLine={false} />
-                <RadialBar background clockWise dataKey="value" cornerRadius={10} />
+                <RadialBar background  dataKey="value" cornerRadius={10} />
               </RadialBarChart>
             </div>
             <p className="text-[#006A02] font-bold text-xl mt-2">{value} °C</p>
           </div>
         </div>
 
-        {/* Dates - stays at bottom */}
         <div className="space-y-2 text-sm mt-4">
           <div className="flex justify-between">
             <span className="text-[#006A02] font-semibold">22-08-2025</span>
@@ -199,12 +193,10 @@ const Transformers = () => {
         </div>
       </div>
 
-      {/* Graph */}
       <div className="w-[70%]">
         <GraphWithFilter data={data} mainLabel={title} />
       </div>
 
-      {/* Table */}
       <div className="w-[100%] mt-3">
         <DataTable
           columns={plantColumns}
@@ -228,7 +220,6 @@ const Transformers = () => {
         </div>
 
         <div>
-          {/* Live Section */}
           {activeTab === "Live" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {liveData.map((item) => (
@@ -237,10 +228,8 @@ const Transformers = () => {
             </div>
           )}
 
-          {/* Logs Section */}
           {activeTab === "Logs" && (
             <div>
-              {/* Logs Tabs */}
               <div className="flex gap-10 border-b border-gray-200  px-3">
                 {logTabs.map((tab) => (
                   <button
@@ -254,7 +243,6 @@ const Transformers = () => {
                 ))}
               </div>
 
-              {/* Logs Tab Content */}
               <div>
                 {activeLogTab === "WTI-HV-1" && renderLogContent("WTI-HV1-TRANS.", 35.3, 28.0, 46.4, 34.7, 0.4, sampleData1, plantData1)}
                 {activeLogTab === "WTI-LV-1" && renderLogContent("WTI-LV1-TRANS.", 38.2, 27.0, 36.4, 35.0, -0.2, sampleData2, plantData2)}
@@ -266,7 +254,6 @@ const Transformers = () => {
             </div>
           )}
 
-          {/* Misc Section */}
           {activeTab === "Miscellaneous" && <p>Miscellaneous</p>}
         </div>
       </div>

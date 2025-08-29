@@ -3,6 +3,9 @@ import NavTabs from "../Navtabs";
 import DateRangePicker from "./Button/DateRangePicker";
 import LineChartComponent from "./Charts/LineChartComponent";
 import DataTable from "./Table/DataTable";
+import type { Column } from "./Table/DataTable";
+
+
 
 export default function InverterDetailsPage() {
   const [activeTab, setActiveTab] = useState("Inv-01");
@@ -18,7 +21,7 @@ export default function InverterDetailsPage() {
 
   const inverters = ["Inv-01", "Inv-02"];
 
-  // ✅ Sample datasets for each inverter
+
   const datasets: any = {
     "Inv-01": {
       voltage: [
@@ -90,7 +93,7 @@ export default function InverterDetailsPage() {
         { time: "17:14", frequency: 0 },
         { time: "17:15", frequency: 49.8 },
       ],
-      // ✅ DC vs AC dataset
+     
       dcAcPower: [
         { serial: 1, dcPower: 45, acPower: 56, date: "18-02-2025" },
         { serial: 2, dcPower: 56, acPower: 89, date: "19-02-2025" },
@@ -138,7 +141,6 @@ export default function InverterDetailsPage() {
         { time: "17:04", frequency: 50.3 },
         { time: "17:05", frequency: 49.9 },
       ],
-      // ✅ DC vs AC dataset
       dcAcPower: [
         { serial: 1, dcPower: 50, acPower: 70, date: "18-02-2025" },
         { serial: 2, dcPower: 60, acPower: 85, date: "19-02-2025" },
@@ -157,7 +159,6 @@ export default function InverterDetailsPage() {
     },
   };
 
-  // ✅ Line configs
   const voltageLines = [
     { key: "voltageR", name: "Voltage_R", color: "#D60000" },
     { key: "voltageY", name: "Voltage_Y", color: "#00A91F" },
@@ -185,11 +186,10 @@ export default function InverterDetailsPage() {
   const powerLines = [{ key: "activePower", name: "Active Power", color: "#FF8400" }];
 
   const frequencyLines = [
-    { key: "frequency", name: "Hz", color: "#788FFF", type: "monotone" },
+    { key: "frequency", name: "Hz", color: "#788FFF" },
   ];
 
 
-  // ✅ Date state
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
@@ -211,7 +211,6 @@ export default function InverterDetailsPage() {
 
       <div className="mt-4 px-3">
         <div className="flex justify-between items-center ">
-          {/* Log Tabs */}
           <div className="flex gap-6">
             {logTabs.map((tab) => (
               <button
@@ -227,7 +226,6 @@ export default function InverterDetailsPage() {
             ))}
           </div>
 
-          {/* Date Picker */}
           <DateRangePicker
             defaultFrom={fromDate}
             defaultTo={toDate}
@@ -239,7 +237,6 @@ export default function InverterDetailsPage() {
         </div>
 
         <div className="py-6">
-          {/* ✅ Only show charts when "Profile" is active */}
           {activeLogTab === "Profile" && (
             <div className="grid grid-cols-1 gap-6 mt-4">
               <LineChartComponent
@@ -272,7 +269,6 @@ export default function InverterDetailsPage() {
             </div>
           )}
 
-          {/* ✅ DC vs AC Power Tab */}
           {activeLogTab === "Dc vs Ac Power" && (
             <div>
               <p className="text-gray-600 text-sm">

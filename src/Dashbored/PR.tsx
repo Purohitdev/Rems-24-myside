@@ -5,8 +5,8 @@ import DateRangePicker from "./Button/DateRangePicker";
 
 export default function PR() {
   const [activeTab, setActiveTab] = useState("Performance");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+const [ _fromDate, setFromDate ] = useState("");
+const [ _toDate, setToDate ] = useState("");
 
 
 
