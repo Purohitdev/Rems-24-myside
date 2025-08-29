@@ -14,7 +14,7 @@ import {
 interface InverterDataPoint {
   day: string;
   generation: number;
-  expected: number;
+  expected?: number; // 👈 optional now
 }
 
 interface GenerationAreaChartProps {
