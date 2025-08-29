@@ -1,0 +1,120 @@
+import ReactECharts from "echarts-for-react";
+
+type BinLabel = "0-1" | "1-2" | "2-3" | "3-4" | "4-5" | "5-6" | "6-7" | "7+";
+
+type WindRoseDatum = {
+  direction: string;                // e.g. "N","NE","E","SE","S","SW","W","NW"
+  values: Partial<Record<BinLabel, number>>; // counts per bin for this direction
+};
+
+interface WindRoseProps {
+  data: WindRoseDatum[];
+  unit?: string;                    // optional, e.g. "k" -> shows 0.5k, 1.0k…
+  height?: number;                  // px
+}
+
+/** Exact color ramp like your screenshot (don’t change order) */
+const COLORS: Record<BinLabel, string> = {
+  "0-1": "#7B3F97", // purple
+  "1-2": "#1F66B1", // deep blue
+  "2-3": "#1FA3FF", // light blue
+  "3-4": "#1CCAD8", // cyan/teal
+  "4-5": "#31C76A", // green
+  "5-6": "#A0D911", // lime
+  "6-7": "#F4D03F", // yellow/orange
+  "7+":  "#E67E22", // orange
+};
+
+const BIN_ORDER: BinLabel[] = ["0-1","1-2","2-3","3-4","4-5","5-6","6-7","7+"];
+
+export default function WindRose({ data, unit = "", height = 360 }: WindRoseProps) {
+  const directions = data.map(d => d.direction);
+
+  // compute stacked max for radius scale
+  const maxRadius = Math.max(
+    0,
+    ...data.map(d =>
+      BIN_ORDER.reduce((sum, b) => sum + (d.values[b] ?? 0), 0)
+    )
+  );
+
+  // auto-align center of bars with labels
+  const startAngle = 90 - 360 / (directions.length * 2);
+
+  const option = {
+    tooltip: {
+      trigger: "item",
+      formatter: (p: any) => {
+        const dir = p.name;
+        const bin = p.seriesName;
+        const val = p.value;
+        return `${dir}<br/>${bin}: <b>${val}</b>`;
+      }
+    },
+    legend: {
+      orient: "vertical",
+      right: 10,
+      top: "middle",
+      textStyle: { fontSize: 12 },
+      itemWidth: 18,
+      itemHeight: 12,
+      data: BIN_ORDER,
+      z: 20 // ✅ keep legend always on top
+    },
+    angleAxis: {
+      type: "category",
+      data: directions,
+      startAngle,          // ✅ fixed auto alignment
+      clockwise: false,    // W goes left, like real compass
+      axisLabel: { fontWeight: "bold" },
+      axisTick: { show: false },
+      axisLine: { lineStyle: { color: "#333" } },
+      z: 10                // ✅ axis labels above bars
+    },
+    radiusAxis: {
+      type: "value",
+      min: 0,
+      max: maxRadius,
+      axisLabel: {
+        formatter: (v: number) => {
+          if (!unit) return v;
+          if (unit === "k") return `${(v / 1000).toFixed(1)}k`;
+          return `${v}${unit}`;
+        }
+      },
+      splitLine: { lineStyle: { type: "dashed", color: "#bbb" } },
+      axisLine: { show: false },
+      axisTick: { show: false },
+      z: 10                // ✅ radial labels in front of bars
+    },
+    polar: {
+      center: ["50%", "50%"],
+      radius: "78%"
+    },
+    // white "hole" in the middle, like your SS
+    graphic: [{
+      type: "circle",
+      left: "center",
+      top: "center",
+      shape: { r: 28 },
+      style: { fill: "#ffffff" }
+    }],
+    series: BIN_ORDER.map((bin) => ({
+      name: bin,
+      type: "bar",
+      coordinateSystem: "polar",
+      stack: "wind",
+      roundCap: false,
+      barCategoryGap: "0%",
+      itemStyle: { color: COLORS[bin] },
+      data: data.map(d => d.values[bin] ?? 0),
+      z: 1 // bars under axis/labels
+    }))
+  };
+
+  return (
+    <div className="w-full">
+      <ReactECharts option={option} style={{ height }} notMerge lazyUpdate />
+    </div>
+  );
+}
